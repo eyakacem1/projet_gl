@@ -3,9 +3,17 @@ import React from "react";
 function SideBar() {
   return (
     <>
-      <nav className="bg-light sidebar" style={{ width: "350px", height: "100vh", position: "fixed", top: 0, // Make sure it sticks to the top
-          left: 0, // Align it to the left
-          }}>
+      <nav
+        className="bg-light sidebar"
+        style={{
+          width: "300px",
+          height: "100vh",
+          position: "fixed",
+          top: 0,
+          left: 0,
+          transition: "transform 0.3s ease", 
+        }}
+      >
         <div className="sidebar-header p-3">
           <h4>Admin Panel</h4>
         </div>
@@ -27,6 +35,9 @@ function SideBar() {
           </li>
         </ul>
       </nav>
+
+     
+      
     </>
   );
 }
