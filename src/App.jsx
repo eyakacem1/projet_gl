@@ -1,18 +1,13 @@
-import { useState } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import DashboardLayoutBasic from './components/DashboardLayoutBasic';
+import Client from './components/ClientForm';
 
-import './App.css'
-import ClientForm from './components/ClientForm'
-import SideBar from './components/SideBar'
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
   return (
-    <>
-      <SideBar/>
-      <ClientForm/>
-    </>
-  )
-}
+  <><DashboardLayoutBasic/>
+  </>
+  );
+};
 
-export default App
+export default App;
