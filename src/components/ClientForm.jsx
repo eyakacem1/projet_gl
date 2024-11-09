@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -8,13 +8,14 @@ import Button from '@mui/material/Button';
 
 export default function ClientForm() {
   const paperStyle = { padding: '20px', margin: '20px auto', maxWidth: '1000px' };
-  const [name, setName] = useState('');
-  const [address, setAddress] = useState('');
-  const [telephone, setTelephone] = useState('');
+  const [nom, setNom] = useState('');
+  const [adresse, setAdresse] = useState('');
+  const [numtel, setNumtel] = useState('');
+  const [clients, setClients] = useState(''); // Keep this as it is
 
   const handleClick = (e) => {
     e.preventDefault(); 
-    const client = { name, address, telephone };
+    const client = { nom, adresse, numtel };
     console.log(client);
 
     fetch("http://localhost:8088/client/add", {
@@ -31,6 +32,14 @@ export default function ClientForm() {
       console.error("Error adding client:", error);
     });
   };
+
+  useEffect(() => {
+    fetch("http://localhost:8088/client/getAllClients")
+      .then(res => res.json())
+      .then((result) => {
+        setClients(result); // Corrected here
+      })
+  }, []); // Runs once on component mount
   
   return (
     <Container>
@@ -54,24 +63,24 @@ export default function ClientForm() {
             label="Nom du client" 
             variant="outlined" 
             fullWidth 
-            value={name} 
-            onChange={(e) => setName(e.target.value)} 
+            value={nom} 
+            onChange={(e) => setNom(e.target.value)} 
           />
           <TextField 
             id="client-address" 
             label="Adresse du client" 
             variant="outlined" 
             fullWidth 
-            value={address} 
-            onChange={(e) => setAddress(e.target.value)} 
+            value={adresse} 
+            onChange={(e) => setAdresse(e.target.value)} 
           />
           <TextField 
             id="client-phone" 
             label="Numéro téléphone du client" 
             variant="outlined" 
             fullWidth 
-            value={telephone} 
-            onChange={(e) => setTelephone(e.target.value)} 
+            value={numtel} 
+            onChange={(e) => setNumtel(e.target.value)} 
           />
           <Button variant="contained" onClick={handleClick}>Ajouter</Button>
         </Box>

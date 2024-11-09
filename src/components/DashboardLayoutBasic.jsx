@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { extendTheme, styled } from '@mui/material/styles';
+import React, { useState, useEffect } from 'react'; // Import useEffectimport { extendTheme, styled } from '@mui/material/styles';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
@@ -12,7 +11,9 @@ import BuildIcon from '@mui/icons-material/Build';
 import ComputerIcon from '@mui/icons-material/Computer';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import Client from './ClientForm';
-
+import { extendTheme } from '@mui/material/styles';
+import styled from 'styled-components';
+import ClientList from './ClientList';
 const NAVIGATION = [
   
   {
@@ -114,7 +115,7 @@ export default function DashboardLayoutBasic(props) {
           <Grid container spacing={1}>
             
           <Client/>
-           
+           <ClientList></ClientList>
           
           </Grid>
         </PageContainer>
