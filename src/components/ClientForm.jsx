@@ -5,13 +5,15 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Container } from '@mui/material';  
 import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 
 export default function ClientForm() {
   const paperStyle = { padding: '20px', margin: '20px auto', maxWidth: '1000px' };
   const [nom, setNom] = useState('');
   const [adresse, setAdresse] = useState('');
   const [numtel, setNumtel] = useState('');
-  const [clients, setClients] = useState(''); // Keep this as it is
+  const [clients, setClients] = useState(''); 
+  const navigate = useNavigate();  // Initialize the navigate function
 
   const handleClick = (e) => {
     e.preventDefault(); 
@@ -27,6 +29,7 @@ export default function ClientForm() {
     })
     .then(() => {
       console.log("New client added");
+      navigate('/clients');  // Redirect to the client list page
     })
     .catch(error => {
       console.error("Error adding client:", error);
@@ -37,27 +40,23 @@ export default function ClientForm() {
     fetch("http://localhost:8088/client/getAllClients")
       .then(res => res.json())
       .then((result) => {
-        setClients(result); // Corrected here
+        setClients(result); 
       })
-  }, []); // Runs once on component mount
+  }, []); 
   
   return (
     <Container>
-      {/* Title */}
       <Typography variant="h4" component="h1" gutterBottom align="center">
         Ajouter un Client
       </Typography>
 
-      {/* Form Paper */}
       <Paper elevation={3} style={paperStyle}>
-        {/* Form Declaration */}
         <Box
           component="form"
           sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}
           noValidate
           autoComplete="off"
         >
-          {/* Form Inputs */}
           <TextField 
             id="client-name" 
             label="Nom du client" 

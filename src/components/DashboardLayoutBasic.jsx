@@ -1,21 +1,23 @@
-import React, { useState, useEffect } from 'react'; // Import useEffectimport { extendTheme, styled } from '@mui/material/styles';
-import DashboardIcon from '@mui/icons-material/Dashboard';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
+import { extendTheme } from '@mui/material/styles';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { PageContainer } from '@toolpad/core/PageContainer';
-import Grid from '@mui/material/Grid2';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import DevicesIcon from '@mui/icons-material/Devices';
 import BuildIcon from '@mui/icons-material/Build';
 import ComputerIcon from '@mui/icons-material/Computer';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import Client from './ClientForm';
-import { extendTheme } from '@mui/material/styles';
-import styled from 'styled-components';
 import ClientList from './ClientList';
+import Client from './ClientForm';
+import ClientEdit from './ClientEdit';
+
+
+// Déclaration de la navigation
 const NAVIGATION = [
-  
   {
     segment: 'dashboard',
     title: 'Dashboard',
@@ -25,6 +27,7 @@ const NAVIGATION = [
     segment: 'Clients',
     title: 'Clients',
     icon: <PeopleAltIcon />,
+    path: '/clients', // Ajouter un chemin pour la navigation
   },
   {
     segment: 'Demandes',
@@ -39,8 +42,6 @@ const NAVIGATION = [
   {
     kind: 'divider',
   },
-  
-  
   {
     segment: 'Materiels',
     title: 'Materiels',
@@ -58,7 +59,6 @@ const NAVIGATION = [
       },
     ],
   },
-  
 ];
 
 const demoTheme = extendTheme({
@@ -75,51 +75,46 @@ const demoTheme = extendTheme({
   },
 });
 
-function useDemoRouter(initialPath) {
-  const [pathname, setPathname] = React.useState(initialPath);
+// Composant pour gérer les clics de navigation
+function NavigationItem({ item }) {
+  const navigate = useNavigate(); // Hook pour la navigation
 
-  const router = React.useMemo(() => {
-    return {
-      pathname,
-      searchParams: new URLSearchParams(),
-      navigate: (path) => setPathname(String(path)),
-    };
-  }, [pathname]);
-
-  return router;
-}
-
-const Skeleton = styled('div')(({ theme, height }) => ({
-  backgroundColor: theme.palette.action.hover,
-  borderRadius: theme.shape.borderRadius,
-  height,
-  content: '" "',
-}));
-
-export default function DashboardLayoutBasic(props) {
-  const { window } = props;
-
-  const router = useDemoRouter('/dashboard');
-
-  const demoWindow = window ? window() : undefined;
+  const handleClick = () => {
+    if (item.path) {
+      navigate(item.path); // Naviguer vers l'URL spécifiée
+    }
+  };
 
   return (
-    <AppProvider
-      navigation={NAVIGATION}
-      router={router}
-      theme={demoTheme}
-      window={demoWindow}
-    >
-      <DashboardLayout>
-        <PageContainer>
-          <Grid container spacing={1}>
+    <div onClick={handleClick}>
+      {item.icon}
+      <span>{item.title}</span>
+    </div>
+  );
+}
+
+export default function DashboardLayoutBasic() {
+  return (
+    <Router>
+      <AppProvider
+        navigation={NAVIGATION}
+        theme={demoTheme}
+      >
+        <DashboardLayout>
+          <PageContainer>
+            {/* Navigation */}
             
-          <Client/>
-           <ClientList></ClientList>
-          
-          </Grid>
-        </PageContainer>
-      </DashboardLayout>
-    </AppProvider>
+
+            {/* Routes */}
+            <Routes>
+              <Route path="/clients" element={<ClientList />} />
+              <Route path="/clientForm" element={<Client />} />
+              <Route path="/edit/:id" element={<ClientEdit />} /> 
+              <Route path="/" element={<div>Dashboard</div>} />
+            </Routes>
+          </PageContainer>
+        </DashboardLayout>
+      </AppProvider>
+    </Router>
   );
 }
