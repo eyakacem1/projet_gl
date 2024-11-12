@@ -14,6 +14,9 @@ import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import ClientList from './ClientList';
 import Client from './ClientForm';
 import ClientEdit from './ClientEdit';
+import DemandeForm from './DemandeForm';
+import DemandeEdit from './DemandeEdit';
+import DemandeList from './DemandeList';
 
 
 // Déclaration de la navigation
@@ -110,6 +113,9 @@ export default function DashboardLayoutBasic() {
               <Route path="/clients" element={<ClientList />} />
               <Route path="/clientForm" element={<Client />} />
               <Route path="/edit/:id" element={<ClientEdit />} /> 
+              <Route path="/demandes" element={<DemandeList />} />
+              <Route path="/DemandeForm" element={<DemandeForm />} />
+              <Route path="/editDemande/:id" element={<DemandeEdit />} /> 
               <Route path="/" element={<div>Dashboard</div>} />
             </Routes>
           </PageContainer>
