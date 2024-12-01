@@ -17,9 +17,19 @@ import ClientEdit from './ClientEdit';
 import DemandeForm from './DemandeForm';
 import DemandeEdit from './DemandeEdit';
 import DemandeList from './DemandeList';
+import TypeForm from './TypeForm';
+import DevicesOtherIcon from '@mui/icons-material/DevicesOther';
+import TypeList from './TypeList';
+import TypeEdit from './TypeEdit';
 
+import PieceRechangeList from './PieceRechangeList';
+import PieceRechangeForm from './PieceRechangeForm';
+import PieceRechangeEdit from './PieceRechangeEdit';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import ReparationList from './ReparationList';
+import ReparationForm from './ReparationForm';
+import ReparationCreate from './ReparationCreate';
 
-// Déclaration de la navigation
 const NAVIGATION = [
   {
     segment: 'dashboard',
@@ -30,7 +40,7 @@ const NAVIGATION = [
     segment: 'Clients',
     title: 'Clients',
     icon: <PeopleAltIcon />,
-    path: '/clients', // Ajouter un chemin pour la navigation
+    path: '/clients', 
   },
   {
     segment: 'Demandes',
@@ -38,9 +48,14 @@ const NAVIGATION = [
     icon: <PendingActionsIcon />,
   },
   {
-    segment: 'Fiches de Reparation',
-    title: 'Fiches de Reparation',
+    segment: 'Reparations',
+    title: 'Reparations',
     icon: <AssignmentIcon />,
+  },
+  {
+    segment: 'Factures',
+    title: 'Factures',
+    icon: <ReceiptLongIcon />,
   },
   {
     kind: 'divider',
@@ -50,15 +65,20 @@ const NAVIGATION = [
     title: 'Materiels',
     icon: <DevicesIcon />,
     children: [
+      
       {
-        segment: 'Machines',
-        title: 'Machines',
-        icon: <ComputerIcon />,
+        segment: "Pieces",
+        title: "Pieces",
+        icon: <BuildIcon />,
+        path: '/Materiels/Pieces', 
+
       },
       {
-        segment: "Pieces d'echange",
-        title: "Pieces d'echange",
-        icon: <BuildIcon />,
+        segment: "Types",
+        title: "Types",
+        icon: <DevicesOtherIcon />,
+        path: '/Materiels/Types', 
+
       },
     ],
   },
@@ -78,13 +98,11 @@ const demoTheme = extendTheme({
   },
 });
 
-// Composant pour gérer les clics de navigation
 function NavigationItem({ item }) {
-  const navigate = useNavigate(); // Hook pour la navigation
-
+  const navigate = useNavigate(); 
   const handleClick = () => {
     if (item.path) {
-      navigate(item.path); // Naviguer vers l'URL spécifiée
+      navigate(item.path); 
     }
   };
 
@@ -105,17 +123,30 @@ export default function DashboardLayoutBasic() {
       >
         <DashboardLayout>
           <PageContainer>
-            {/* Navigation */}
             
 
-            {/* Routes */}
             <Routes>
+            <Route path="/Reparations" element={<ReparationList />} />
+            <Route path="/ReparationForm" element={<ReparationForm />} />
+            <Route path="/ReparationCreate/:id" element={<ReparationCreate />} />
+
+            <Route path="/Materiels/Pieces" element={<PieceRechangeList />} />
+            <Route path="/PieceForm" element={<PieceRechangeForm />} />
+
               <Route path="/clients" element={<ClientList />} />
               <Route path="/clientForm" element={<Client />} />
-              <Route path="/edit/:id" element={<ClientEdit />} /> 
+              <Route path="/edit/:id" element={<ClientEdit />} />
+
+              <Route path="/clients" element={<ClientList />} />
+              <Route path="/clientForm" element={<Client />} /> 
+
               <Route path="/demandes" element={<DemandeList />} />
               <Route path="/DemandeForm" element={<DemandeForm />} />
               <Route path="/editDemande/:id" element={<DemandeEdit />} /> 
+
+              <Route path="/typeEdit/:id" element={<TypeEdit />} />
+              <Route path="/typeForm" element={<TypeForm />} />
+              <Route path="/Materiels/Types" element={<TypeList />} />
               <Route path="/" element={<div>Dashboard</div>} />
             </Routes>
           </PageContainer>
