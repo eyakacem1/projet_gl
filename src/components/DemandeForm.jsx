@@ -44,16 +44,14 @@ const [datePrevueRep, setdatePrevueRep] = useState('');
     e.preventDefault(); 
     const demande = { 
       dateDepotAppareil,
-
       datePrevueRep ,
       etat, 
-
       symptomesPanne, 
       numSerie, 
       marque ,
       modele, 
       client: {
-        id: 1 
+        id: idClient
       }
     };
     console.log(demande);
@@ -132,14 +130,12 @@ const [datePrevueRep, setdatePrevueRep] = useState('');
   <Select
     labelId="etat-label"
     id="etat"
-    value={etat} // use your state for etat
-    onChange={(event) => setEtat(event.target.value)} // update your state for etat
+    value={etat} 
+    onChange={(event) => setEtat(event.target.value)} 
     label="État"
   >
    <MenuItem value="CREE">Crée</MenuItem>
-    <MenuItem value="ENCOURS">En Cours</MenuItem>
     <MenuItem value="TERMINEE">Terminée</MenuItem>
-    <MenuItem value="REJETEE">Rejetée</MenuItem>
   </Select>
 </FormControl>
           <TextField 

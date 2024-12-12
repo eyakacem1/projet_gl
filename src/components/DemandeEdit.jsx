@@ -148,9 +148,7 @@ export default function DemandeEdit() {
               label="État"
             >
               <MenuItem value="CREE">Crée</MenuItem>
-              <MenuItem value="ENCOURS">En Cours</MenuItem>
               <MenuItem value="TERMINEE">Terminée</MenuItem>
-              <MenuItem value="REJETEE">Rejetée</MenuItem>
             </Select>
           </FormControl>
 

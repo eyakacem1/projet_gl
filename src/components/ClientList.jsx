@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import TextField from '@mui/material/TextField';
+import { useAuth } from './AuthContext';  
 
 export default function ClientList() {
   const paperStyle = { padding: '20px', margin: '20px auto', maxWidth: '1000px' };
@@ -13,6 +14,7 @@ export default function ClientList() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredClients, setFilteredClients] = useState([]);
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const handleAddClientClick = () => {
     navigate('/clientForm');

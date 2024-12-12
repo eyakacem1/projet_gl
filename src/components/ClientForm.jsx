@@ -13,7 +13,8 @@ export default function ClientForm() {
   const [adresse, setAdresse] = useState('');
   const [numtel, setNumtel] = useState('');
   const [clients, setClients] = useState(''); 
-  const navigate = useNavigate();  // Initialize the navigate function
+  const navigate = useNavigate();  
+  const userRole = localStorage.getItem("userRole");
 
   const handleClick = (e) => {
     e.preventDefault(); 

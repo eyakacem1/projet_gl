@@ -6,13 +6,17 @@ import Button from '@mui/material/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import TextField from '@mui/material/TextField';
+import { useAuth } from './AuthContext';  
 
 export default function PieceRechangeList() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  
   const paperStyle = { padding: '20px', margin: '20px auto', maxWidth: '1000px' };
   const [pieces, setPieces] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredPieces, setFilteredPieces] = useState([]);
-  const navigate = useNavigate();
 
   const handleAddPieceClick = () => {
     navigate('/PieceForm');  
@@ -24,7 +28,7 @@ export default function PieceRechangeList() {
       setSearchQuery(savedSearchQuery);
     }
 
-    fetch("http://localhost:8080/api/piece-rechange", {
+    fetch("http://localhost:8088/piece/getAll", {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -116,7 +120,6 @@ export default function PieceRechangeList() {
             <div>Prix Achat: {piece.prixAchat} €</div>
             <div>Prix HT: {piece.prixHT} €</div>
             <div>Prix TTC: {piece.prixTTC} €</div>
-            <div>Quantité: {piece.quantite}</div>
             <Link to={`/edit-piece/${piece.id}`}>
               <Button 
                 variant="outlined" 

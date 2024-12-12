@@ -10,7 +10,6 @@ export default function ReparationForm() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch all demandes
     fetch("http://localhost:8088/demande/getAll", {
       method: 'GET',
       headers: {

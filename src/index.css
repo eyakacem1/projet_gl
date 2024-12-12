@@ -96,4 +96,7 @@ button:focus-visible {
     background-color: #495057;
     border-radius: 5px;
   }
-  
+  /* Global CSS to hide the Toolpad logo */
+.toolpad-logo {
+  display: none !important;
+}

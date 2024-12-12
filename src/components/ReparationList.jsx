@@ -5,18 +5,21 @@ import { Container } from '@mui/material';
 import Button from '@mui/material/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
+import { useAuth } from './AuthContext';  
 
 export default function ReparationList() {
   const paperStyle = { padding: '20px', margin: '20px auto', maxWidth: '1000px' };
   const [reparations, setReparations] = useState([]);
+  const [demandesNonTraitees, setDemandesNonTraitees] = useState([]);
   const navigate = useNavigate();
+  const { user } = useAuth();
 
-  const handleAddReparationClick = () => {
-    navigate('/ReparationForm'); 
+  const handleAddReparationClick = (demandeId) => {
+    navigate(`/ReparationCreate/${demandeId}`); 
   };
 
   useEffect(() => {
-    fetch("http://localhost:8088/reparation/getAll", {
+    fetch("http://localhost:8088/Reparation/getAll", {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -28,22 +31,55 @@ export default function ReparationList() {
       setReparations(data);
     })
     .catch(error => console.error("Erreur:", error));
+
+    fetch("http://localhost:8088/demande/getNonTraitee", {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      mode: 'cors',
+    })
+    .then(response => response.json())
+    .then(data => {
+      setDemandesNonTraitees(data);
+    })
+    .catch(error => console.error("Erreur:", error));
+
   }, []);
 
   return (
     <Container>
       <Typography variant="h4" component="h1" gutterBottom align="center">
-        Liste des Réparations
+        Liste des Demandes Non Traitées
       </Typography>
 
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleAddReparationClick}
-        style={{ marginBottom: '20px' }}
-      >
-        Ajouter une nouvelle réparation
-      </Button>
+      {demandesNonTraitees.length > 0 ? (
+        demandesNonTraitees.map((demande, index) => (
+          <Paper 
+            elevation={6} 
+            style={{ margin: "10px", padding: "15px", textAlign: "left" }} 
+            key={demande.id || index}
+          >
+            <div>Client: {demande.clientNom}</div>
+            <div>Date: {new Date(demande.date).toLocaleDateString()}</div>
+            <div>Description: {demande.description}</div>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => handleAddReparationClick(demande.id)} 
+              style={{ marginTop: '10px' }}
+            >
+              Ajouter une réparation pour cette demande
+            </Button>
+          </Paper>
+        ))
+      ) : (
+        <Typography>Aucune demande non traitée trouvée</Typography>
+      )}
+
+      <Typography variant="h4" component="h1" gutterBottom align="center" style={{ marginTop: '40px' }}>
+        Liste des Réparations
+      </Typography>
 
       {reparations.length > 0 ? (
         reparations.map((reparation, index) => (
@@ -56,7 +92,7 @@ export default function ReparationList() {
             <div>Date Début: {new Date(reparation.dateDebut).toLocaleDateString()}</div>
             <div>Date Fin: {new Date(reparation.dateFin).toLocaleDateString()}</div>
             <div>Demande ID: {reparation.demande ? reparation.demande.id : 'Non spécifié'}</div>
-            <Link to={`/editReparation/${reparation.id}`}>
+            <Link to={`/ReparationEdit/${reparation.id}`}>
               <Button 
                 variant="outlined" 
                 color="primary"
